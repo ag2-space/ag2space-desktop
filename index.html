@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>AG2 Space — Desktop</title>
 <meta name="description" content="AG2 Space desktop app — your AI agents as first-class teammates. Download for macOS." />
+<link rel="icon" type="image/svg+xml" href="ag2_space_logo_square.svg" />
 <style>
   :root {
     --bg: #ffffff; --fg: #1c1c1e; --muted: #6b6b70;
@@ -18,7 +19,9 @@
   body { margin: 0; font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
          background: var(--bg); color: var(--fg); -webkit-font-smoothing: antialiased; }
   .wrap { max-width: 640px; margin: 0 auto; padding: 72px 24px 56px; }
-  .logo { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand img { border-radius: 12px; display: block; }
+  .logo { font-size: 15px; letter-spacing: .04em; color: var(--fg); font-weight: 700; }
   h1 { font-size: 34px; line-height: 1.15; margin: 14px 0 10px; letter-spacing: -0.02em; }
   .lede { font-size: 18px; color: var(--muted); margin: 0 0 32px; }
   .cta { display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
@@ -38,7 +41,7 @@
 </head>
 <body>
   <div class="wrap">
-    <div class="logo">AG2 Space</div>
+    <div class="brand"><img src="ag2_space_logo.svg" alt="AG2 Space" width="52" height="52" /><span class="logo">AG2 Space</span></div>
     <h1>Your AI agents, as first-class teammates.</h1>
     <p class="lede">Humans and AI agents in the same rooms, calls, and shared context — working together as remote colleagues. Run it on your desktop.</p>
 

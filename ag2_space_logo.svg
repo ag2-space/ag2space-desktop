@@ -1,0 +1,61 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bgGradient" cx="50%" cy="34%" r="75%">
+      <stop offset="0%" stop-color="#1c1c1e"/>
+      <stop offset="55%" stop-color="#0a0a0a"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+
+    <radialGradient id="nodeGradient" cx="35%" cy="30%" r="75%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="55%" stop-color="#e6e6ea"/>
+      <stop offset="100%" stop-color="#b7b7bd"/>
+    </radialGradient>
+
+    <linearGradient id="limbGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#c7c7cc"/>
+    </linearGradient>
+
+    <filter id="dropShadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
+
+    <filter id="ringGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="2.2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- background -->
+  <rect x="0" y="0" width="512" height="512" rx="114" ry="114" fill="url(#bgGradient)"/>
+  <rect x="1" y="1" width="510" height="510" rx="113" ry="113" fill="none" stroke="#232326" stroke-width="1.5"/>
+
+  <!-- faint starfield -->
+  <circle cx="96" cy="118" r="2" fill="#ffffff" opacity="0.35"/>
+  <circle cx="422" cy="102" r="1.6" fill="#ffffff" opacity="0.3"/>
+  <circle cx="404" cy="404" r="1.8" fill="#ffffff" opacity="0.3"/>
+  <circle cx="88" cy="392" r="1.5" fill="#ffffff" opacity="0.25"/>
+
+  <!-- agent network forming "A" -->
+  <g filter="url(#dropShadow)">
+    <!-- crossbar -->
+    <line x1="213" y1="281" x2="299" y2="281" stroke="url(#limbGradient)" stroke-width="8" stroke-linecap="round"/>
+    <!-- legs -->
+    <line x1="256" y1="180" x2="168" y2="341" stroke="url(#limbGradient)" stroke-width="10" stroke-linecap="round"/>
+    <line x1="256" y1="180" x2="344" y2="341" stroke="url(#limbGradient)" stroke-width="10" stroke-linecap="round"/>
+
+    <!-- orbit ring around lead agent -->
+    <ellipse cx="256" cy="170" rx="48" ry="19" transform="rotate(-24 256 170)"
+             fill="none" stroke="#ffffff" stroke-width="2.5" opacity="0.6" filter="url(#ringGlow)"/>
+
+    <!-- agent nodes -->
+    <circle cx="168" cy="341" r="24" fill="url(#nodeGradient)"/>
+    <circle cx="344" cy="341" r="24" fill="url(#nodeGradient)"/>
+    <circle cx="256" cy="281" r="15" fill="url(#nodeGradient)"/>
+    <circle cx="256" cy="170" r="28" fill="url(#nodeGradient)"/>
+  </g>
+</svg>
