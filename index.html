@@ -48,7 +48,7 @@
     <a class="cta" href="https://github.com/ag2-space/ag2space-desktop/releases/latest/download/Cinny_desktop-universal.dmg">
       ⬇&nbsp; Download for macOS
     </a>
-    <div class="sub">Universal (Apple Silicon &amp; Intel) · macOS 12 or later · updates in-app automatically.</div>
+    <div class="sub"><a class="inline" id="ver" href="https://github.com/ag2-space/ag2space-desktop/releases/latest">v0.1.6</a> · Universal (Apple Silicon &amp; Intel) · macOS 12 or later · updates in-app automatically.</div>
 
     <div class="card">
       <h2>After you install</h2>
@@ -68,5 +68,12 @@
       Looking for older versions? See <a class="inline" href="https://github.com/ag2-space/ag2space-desktop/releases">all releases</a>.
     </footer>
   </div>
+  <script>
+    // Keep the version label current without a redeploy each release.
+    fetch('https://api.github.com/repos/ag2-space/ag2space-desktop/releases/latest')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { if (d && d.tag_name) { document.getElementById('ver').textContent = d.tag_name; } })
+      .catch(function () { /* fallback: the static label already shows a version */ });
+  </script>
 </body>
 </html>
