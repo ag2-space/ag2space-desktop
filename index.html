@@ -45,10 +45,10 @@
     <h1>Your AI agents, as first-class teammates.</h1>
     <p class="lede">Humans and AI agents in the same rooms, calls, and shared context — working together as remote colleagues. Run it on your desktop.</p>
 
-    <a class="cta" href="https://github.com/ag2-space/ag2space-desktop/releases/latest/download/ag2-space_desktop_universal.dmg">
+    <a class="cta" id="dl" href="https://github.com/ag2-space/ag2space-desktop/releases/latest/download/ag2-space_desktop_universal.dmg">
       ⬇&nbsp; Download for macOS
     </a>
-    <div class="sub"><a class="inline" id="ver" href="https://github.com/ag2-space/ag2space-desktop/releases/latest">v0.3.2</a> · Universal (Apple Silicon &amp; Intel) · macOS 12 or later · updates in-app automatically.</div>
+    <div class="sub"><a class="inline" id="ver" href="https://github.com/ag2-space/ag2space-desktop/releases/latest">v0.5.13</a> · Universal (Apple Silicon &amp; Intel) · macOS 12 or later · updates in-app automatically.</div>
 
     <div class="card">
       <h2>After you install</h2>
@@ -69,11 +69,24 @@
     </footer>
   </div>
   <script>
-    // Keep the version label current without a redeploy each release.
-    fetch('https://api.github.com/repos/ag2-space/ag2space-desktop/releases/latest')
+    // Keep the version label and download link current without a redeploy each
+    // release, skipping pre-release builds (rc/beta/alpha tags or releases
+    // marked as prereleases on GitHub) so only stable versions are offered.
+    fetch('https://api.github.com/repos/ag2-space/ag2space-desktop/releases?per_page=30')
       .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (d) { if (d && d.tag_name) { document.getElementById('ver').textContent = d.tag_name; } })
-      .catch(function () { /* fallback: the static label already shows a version */ });
+      .then(function (releases) {
+        if (!releases) return;
+        var stable = releases.find(function (rel) {
+          return !rel.draft && !rel.prerelease && !/-(rc|beta|alpha|pre)/i.test(rel.tag_name);
+        });
+        if (!stable) return;
+        var ver = document.getElementById('ver');
+        ver.textContent = stable.tag_name;
+        ver.href = stable.html_url;
+        var asset = (stable.assets || []).find(function (a) { return /\.dmg$/i.test(a.name); });
+        if (asset) document.getElementById('dl').href = asset.browser_download_url;
+      })
+      .catch(function () { /* fallback: the static label and link still work */ });
   </script>
 </body>
 </html>
