@@ -45,10 +45,10 @@
     <h1>Your AI agents, as first-class teammates.</h1>
     <p class="lede">Humans and AI agents in the same rooms, calls, and shared context — working together as remote colleagues. Run it on your desktop.</p>
 
-    <a class="cta" id="dl" href="https://github.com/ag2-space/ag2space-desktop/releases/download/v0.5.13/ag2-space_desktop_universal.dmg">
+    <a class="cta" id="dl" href="https://dl.ag2.space/desktop/v0.7.11/ag2-space_desktop_universal.dmg">
       ⬇&nbsp; Download for macOS
     </a>
-    <div class="sub"><a class="inline" id="ver" href="https://github.com/ag2-space/ag2space-desktop/releases/tag/v0.5.13">v0.5.13</a> · Universal (Apple Silicon &amp; Intel) · macOS 12 or later · updates in-app automatically.</div>
+    <div class="sub"><a class="inline" id="ver" href="https://github.com/ag2-space/ag2space-desktop/releases/tag/v0.7.11">v0.7.11</a> · Universal (Apple Silicon &amp; Intel) · macOS 12 or later · updates in-app automatically.</div>
 
     <div class="card">
       <h2>After you install</h2>
@@ -61,7 +61,7 @@
 
     <div class="card">
       <h2>Requirements</h2>
-      <div class="req"><span>macOS 12+</span><span>Apple Silicon or Intel</span><span>~330 MB download</span></div>
+      <div class="req"><span>macOS 12+</span><span>Apple Silicon or Intel</span><span id="size">~380 MB download</span></div>
     </div>
 
     <footer>
@@ -69,26 +69,41 @@
     </footer>
   </div>
   <script>
-    // Keep the version label and download link current without a redeploy each
-    // release, skipping pre-release builds (rc/beta/alpha tags or releases
-    // marked as prereleases on GitHub) so only stable versions are offered.
-    // The static hrefs above are pinned to a known stable tag so a failed or
-    // blocked API lookup can never fall back to an rc build via releases/latest.
-    fetch('https://api.github.com/repos/ag2-space/ag2space-desktop/releases?per_page=30')
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (releases) {
-        if (!releases) return;
-        var stable = releases.find(function (rel) {
-          return !rel.draft && !rel.prerelease && !/-(rc|beta|alpha|pre)/i.test(rel.tag_name);
+    // The download is served from dl.ag2.space (Cloudflare R2). The release
+    // workflow rewrites desktop/latest.json on every stable cut, so it only
+    // ever names a stable build. If it cannot be read, fall back to the GitHub
+    // API; if that fails too, the pinned stable link above still works.
+    var GH = 'https://github.com/ag2-space/ag2space-desktop/releases/tag/';
+    function show(tag, href, bytes) {
+      var ver = document.getElementById('ver');
+      ver.textContent = tag;
+      ver.href = GH + encodeURIComponent(tag);
+      document.getElementById('dl').href = href;
+      if (bytes > 0) document.getElementById('size').textContent = '~' + Math.round(bytes / 1e6) + ' MB download';
+    }
+    function fromGitHub() {
+      return fetch('https://api.github.com/repos/ag2-space/ag2space-desktop/releases?per_page=30')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (releases) {
+          if (!releases) return;
+          var stable = releases.find(function (rel) {
+            return !rel.draft && !rel.prerelease && !/-(rc|beta|alpha|pre)/i.test(rel.tag_name);
+          });
+          if (!stable) return;
+          var asset = (stable.assets || []).find(function (a) { return /\.dmg$/i.test(a.name); });
+          if (asset) show(stable.tag_name, asset.browser_download_url, asset.size);
         });
-        if (!stable) return;
-        var ver = document.getElementById('ver');
-        ver.textContent = stable.tag_name;
-        ver.href = stable.html_url;
-        var asset = (stable.assets || []).find(function (a) { return /\.dmg$/i.test(a.name); });
-        if (asset) document.getElementById('dl').href = asset.browser_download_url;
+    }
+    fetch('https://dl.ag2.space/desktop/latest.json', { cache: 'no-cache' })
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (latest) {
+        if (!latest || !/^v\d+\.\d+\.\d+$/.test(latest.tag) || !/^https:\/\/dl\.ag2\.space\//.test(latest.url)) {
+          return Promise.reject('bad latest.json');
+        }
+        show(latest.tag, latest.url, latest.size);
       })
-      .catch(function () { /* fallback: the pinned stable label and link still work */ });
+      .catch(function () { return fromGitHub(); })
+      .catch(function () { /* the pinned stable label and link still work */ });
   </script>
 </body>
 </html>
