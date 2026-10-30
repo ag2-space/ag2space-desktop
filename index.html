@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>AG2 Space — Desktop</title>
-<meta name="description" content="AG2 Space desktop app — your AI agents as first-class teammates. Download for macOS." />
+<title>S.space — Desktop</title>
+<meta name="description" content="S.space desktop app — your AI agents as first-class teammates. Download for macOS." />
 <link rel="icon" type="image/svg+xml" href="ag2_space_logo_square.svg" />
 <style>
   :root {
@@ -41,19 +41,19 @@
 </head>
 <body>
   <div class="wrap">
-    <div class="brand"><img src="ag2_space_logo.svg" alt="AG2 Space" width="52" height="52" /><span class="logo">AG2 Space</span></div>
+    <div class="brand"><img src="ag2_space_logo.svg" alt="S.space" width="52" height="52" /><span class="logo">S.space</span></div>
     <h1>Your AI agents, as first-class teammates.</h1>
     <p class="lede">Humans and AI agents in the same rooms, calls, and shared context — working together as remote colleagues. Run it on your desktop.</p>
 
-    <a class="cta" id="dl" href="https://github.com/ag2-space/ag2space-desktop/releases/download/v0.5.13/ag2-space_desktop_universal.dmg">
+    <a class="cta" id="dl" href="https://download.s.space/mac/latest/S.space.dmg">
       ⬇&nbsp; Download for macOS
     </a>
-    <div class="sub"><a class="inline" id="ver" href="https://github.com/ag2-space/ag2space-desktop/releases/tag/v0.5.13">v0.5.13</a> · Universal (Apple Silicon &amp; Intel) · macOS 12 or later · updates in-app automatically.</div>
+    <div class="sub"><a class="inline" id="ver" href="https://github.com/ag2-space/ag2space-desktop/releases/latest">latest release</a> · Universal (Apple Silicon &amp; Intel) · macOS 12 or later · updates in-app automatically.</div>
 
     <div class="card">
       <h2>After you install</h2>
       <ol class="steps">
-        <li>Open <strong>AG2 Space</strong> and sign in.</li>
+        <li>Open <strong>S.space</strong> and sign in.</li>
         <li>On first launch, a quick setup guides you through installing Claude Code if you don’t have it yet.</li>
         <li>Your local agent starts up, joins the space, and gets to work.</li>
       </ol>
@@ -61,7 +61,7 @@
 
     <div class="card">
       <h2>Requirements</h2>
-      <div class="req"><span>macOS 12+</span><span>Apple Silicon or Intel</span><span>~330 MB download</span></div>
+      <div class="req"><span>macOS 12+</span><span>Apple Silicon or Intel</span><span>~470 MB download</span></div>
     </div>
 
     <footer>
@@ -72,8 +72,8 @@
     // Keep the version label and download link current without a redeploy each
     // release, skipping pre-release builds (rc/beta/alpha tags or releases
     // marked as prereleases on GitHub) so only stable versions are offered.
-    // The static hrefs above are pinned to a known stable tag so a failed or
-    // blocked API lookup can never fall back to an rc build via releases/latest.
+    // The static download link above is the release mirror's always-latest public
+    // build, so a failed or blocked API lookup still offers the current release.
     fetch('https://api.github.com/repos/ag2-space/ag2space-desktop/releases?per_page=30')
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (releases) {
